@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Sign Up{% endblock %}
+
+{% block javascript %}
+<script>
+  $('#id_username').change(function(){
+    var username = $(this).val();
+    $.ajax({
+      url: '/accounts/validate_username/',
+        data: {
+          'username': username
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_taken) {
+            $('#alert').html("<br />Account Already Exists<br />")
+          }else{
+            $('#alert').html("")
+          }
+        }
+    })
+  })
+</script>
+{% endblock %}
+
+{% block content %}
+  <div class="login">
+      <div class="login-triangle"></div>
+      
+      <h2 class="login-header">Sign up</h2>
+    
+      <form method="post" class="login-container">
+        <p id="alert"></p>
+        {% csrf_token %}
+        {{ user_form.as_p }}
+      <p><input type="submit" value="Signup"></p>
+      <p style="text-align: center" ><a href="{% url 'login' %}">Login</a></p>
+      {% if registered %}
+        <span style="color:green">Account Registered! Please <a href="{% url 'login' %}">Login Now</a></span>
+      {% endif %}
+  </form>
+</div>
+{% endblock %}

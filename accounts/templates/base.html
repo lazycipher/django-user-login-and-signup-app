@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  <link href="{% static 'accounts/style.css'%}" rel="stylesheet" />
+  <meta charset="utf-8">
+  <title>{% block title %}Django Auth Tutorial{% endblock %}</title>
+</head>
+<body>
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+  <script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  {% block javascript %}{% endblock %}
+</body>
+</html>
