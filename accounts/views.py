@@ -10,11 +10,13 @@ def SignUp(request):
     registered = False
     if(request.method == 'POST'):
         user_form = UserForm(data=request.POST)
-        if user_form.is_valid():
+        if user_form.is_valid() and user_form.cleaned_data['password'] == user_form.cleaned_data['confirm_password']:
             user = user_form.save()
             user.set_password(user.password)
             user.save()
             registered = True
+        elif user_form.data['password'] != user_form.data['confirm_password']:
+            user_form.add_error('confirm_password', 'Passwords does not match')
         else:
             print(user_form.errors)
     else:
